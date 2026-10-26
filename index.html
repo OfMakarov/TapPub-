@@ -371,16 +371,32 @@ const EVENTS = {
   party:    {name:'Девичник', desc:'Заказывают только коктейли, чаевые в полтора раза больше.', ok: d => d.some(k => !BEERS.includes(k))},
   friday:   {name:'Пятница', desc:'Компании заходят чаще, все чуть нетерпеливее. Вся выручка ×1.25.', ok: () => true},
 };
+/* Every task must be doable before the quota closes the bar, so count targets come from taskGoal(): how many drinks a good player serves to reach this shift's quota. */
 const TASKS = {
-  perfect5: {text:'5 идеальных подряд', check: st => st.bestRun >= 5},
-  combo8:   {text:'Комбо 8', check: st => st.maxCombo >= 8},
-  served15: {text:'Подай 15 напитков', check: st => st.served >= 15},
-  clean:    {text:'Ни одной жалобы', end: true, check: st => st.complaintsTotal === 0},
-  fast:     {text:'Квота за 60 секунд', end: true, check: st => st.ok && st.left >= 30},
-  vip:      {text:'VIP на «Идеально»', need: () => lvl('neon'), check: st => st.vip >= 1},
-  cocktail3:{text:'3 коктейля без жалоб', need: () => save.owned.some(k => !BEERS.includes(k)), check: st => st.cocktails >= 3},
-  happy10:  {text:'$10 за счастливый час', need: () => lvl('happy'), check: st => st.happyMoney >= 10},
+  perfect:  {text: g => g + ' идеальных подряд', goal: e => clamp(Math.round(e.serves * .45), 3, 6), check: (st, g) => st.bestRun >= g},
+  combo:    {text: g => 'Комбо ' + g, goal: e => clamp(Math.round(e.serves * .6), 4, 10), check: (st, g) => st.maxCombo >= g},
+  clean:    {text: () => 'Ни одной жалобы', end: true, check: st => st.complaintsTotal === 0},
+  fast:     {text: () => 'Квота за 60 секунд', end: true, check: st => st.ok && st.left >= 30},
+  noOk:     {text: () => 'Ни одного «Нормально»', end: true, check: st => st.okCount === 0},
+  glass:    {text: () => 'Ни одного разбитого бокала', end: true, check: st => st.broken === 0},
+  vip:      {text: () => 'VIP на «Идеально»', need: () => lvl('neon'), check: st => st.vip >= 1},
+  cocktails:{text: g => g + ' ' + (g < 5 ? 'коктейля' : 'коктейлей') + ' без жалоб', need: () => save.owned.some(k => !BEERS.includes(k)), goal: e => clamp(Math.round(e.serves * e.cocktailShare * .6), 2, 4), check: (st, g) => st.cocktails >= g},
+  happy:    {text: () => '2 напитка в счастливый час', need: () => lvl('happy'), check: st => st.happyServed >= 2},
 };
+/* drinks a good player (mostly perfect, small combo) serves to reach the quota of shift n with the current shelf */
+function taskGoal(n, ev) {
+  const c = shiftCfg(n), night = levelInfo(n).night;
+  const pool = ev === 'football' ? c.drinks.filter(k => BEERS.includes(k)) : ev === 'party' ? c.drinks.filter(k => !BEERS.includes(k)) : c.drinks;
+  const ds = pool.length ? pool : c.drinks;
+  const avg = ds.reduce((a, k) => a + DRINKS[k].price * (ev === 'football' && BEERS.includes(k) ? 1.2 : 1), 0) / ds.length;
+  const tip = c.tipMul * (ev === 'party' ? 1.5 : 1) * (night ? 1.25 : 1);
+  const pay = avg * c.priceMul * (ev === 'friday' ? 1.25 : 1) * (night ? 1.5 : 1) * (1 + .4 * tip) * 1.1;
+  return {serves: levelPlan(n) / pay, cocktailShare: ds.filter(k => !BEERS.includes(k)).length / ds.length};
+}
+function makeTasks(ids, n, ev) {
+  const e = taskGoal(n, ev);
+  return ids.map(id => { const T = TASKS[id], g = T.goal ? T.goal(e) : 0; return {id, g, text: T.text(g), done: false}; });
+}
 const RANKS = [[0, 'Забегаловка'], [6, 'Пивная'], [18, 'Паб'], [36, 'Бар'], [60, 'Коктейль-бар'], [95, 'Легенда города']];
 const starsTotal = () => (save.legacy || 0) + Object.values(save.best || {}).reduce((a, b) => a + b.s, 0);
 const rankName = () => RANKS.filter(r => starsTotal() >= r[0]).pop()[1];
@@ -408,7 +424,7 @@ function levelInfo(n) {
   const night = n >= 4 && (r() < .2 || n % 5 === 4);
   const e = r(), pickE = ['football', 'party', 'friday'][Math.floor(r() * 3)];
   const event = !night && n >= 3 && e < .45 && EVENTS[pickE].ok(save.owned) ? pickE : null;
-  const pool = Object.keys(TASKS).filter(k => (!TASKS[k].need || TASKS[k].need()) && !(event === 'football' && k === 'cocktail3'));
+  const pool = Object.keys(TASKS).filter(k => (!TASKS[k].need || TASKS[k].need()) && !(event === 'football' && k === 'cocktails'));
   for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
   return {night, event, tasks: pool.slice(0, 3)};
 }
@@ -684,11 +700,11 @@ function busy() { return (state !== 'play' && state !== 'train') || paused || (s
 const twoTaps = () => state === 'play' && lvl('tap2') > 0;
 let ghost = null, happyLeft = 0, happyUsed = false, brokenT = 0;
 let mode = 'shift', event = null, nextEvent = null, tasks = [], nextTasks = [], st = {};
-const freshStats = () => ({bestRun: 0, maxCombo: 0, served: 0, complaintsTotal: 0, vip: 0, cocktails: 0, happyMoney: 0});
+const freshStats = () => ({bestRun: 0, maxCombo: 0, served: 0, complaintsTotal: 0, vip: 0, cocktails: 0, happyServed: 0, okCount: 0, broken: 0, vipAt: -9});
 function buzz(p) { if (!opt.vibro) return; try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} }
 function checkTasks() {
   tasks.forEach(x => {
-    if (!x.done && !TASKS[x.id].end && TASKS[x.id].check(st)) {
+    if (!x.done && !TASKS[x.id].end && TASKS[x.id].check(st, x.g)) {
       x.done = true;
       setTimeout(() => pop('Задание выполнено', '#8fd27a', x.text), 700);
       [880, 1175].forEach((f, i) => tone(f, .12, 'triangle', .07, 0, .7 + i * .09));
@@ -755,7 +771,7 @@ function spill() {
   }
   pop('Дзынь!', '#dff4ff', 'бокал разбит, держи новый');
   tone(2600, .25, 'triangle', .08, .7); tone(3400, .2, 'square', .03, .8, .03); tone(1900, .3, 'sine', .05, .6, .06);
-  brokenT = .45;
+  brokenT = .45; if (st) st.broken++;
 }
 function tap() {
   if (busy()) return;
@@ -846,7 +862,7 @@ function resolveServe() {
   } else {
     const tipMul = cust.type === 'hurry' ? 1.5 : 1;
     if (tier === 'perfect') { combo++; perfectRun++; perfects++; }
-    else if (tier === 'ok') { combo = 0; perfectRun = 0; }
+    else if (tier === 'ok') { combo = 0; perfectRun = 0; st.okCount++; }
     else perfectRun = 0;
     const bonus = Math.min(.5, Math.floor(combo / 3) * .1);
     const evPay = (event === 'friday' ? 1.25 : event === 'football' && BEERS.includes(key) ? 1.2 : 1) * (night ? 1.5 : 1);
@@ -857,7 +873,7 @@ function resolveServe() {
     st.served++; st.maxCombo = Math.max(st.maxCombo, combo); st.bestRun = Math.max(st.bestRun, perfectRun);
     if (cust.type === 'vip' && tier === 'perfect') st.vip++;
     if (!BEERS.includes(key)) st.cocktails++;
-    if (happy) st.happyMoney += pay;
+    if (happy) st.happyServed++;
     buzz(tier === 'perfect' ? [15, 40, 15] : 15);
     pop(TIER[tier].label, TIER[tier].color, '+' + rub(pay) + (happy ? '  ×2' : '') + (cust.type === 'vip' ? '  VIP ×3' : '') + (bonus && tier !== 'ok' ? '  комбо +' + Math.round(bonus * 100) + '%' : ''));
     SFX[tier]();
@@ -898,9 +914,13 @@ function makeCustomer() {
   let type = pick(cfg.types);
   if (event === 'friday' && Math.random() < .25) type = 'company';
   if (lvl('neon') && Math.random() < .18) type = 'vip';
+  const open = id => mode === 'shift' && tasks.some(x => x.id === id && !x.done);
+  if (open('vip') && st.served >= 2 && st.served - st.vipAt >= 3) type = 'vip';
+  if (type === 'vip') st.vipAt = st.served;
   const n = type === 'company' ? randInt(2, 3) : 1;
   const pool = mode === 'rush' && rushNew && Math.random() < .4 ? [rushNew] : event === 'football' ? cfg.drinks.filter(k => BEERS.includes(k)) : event === 'party' ? cfg.drinks.filter(k => !BEERS.includes(k)) : cfg.drinks;
-  const orders = Array.from({length: n}, () => { const key = pick(pool.length ? pool : cfg.drinks); return {key, spec: instantiate(key)}; });
+  const cocktails = pool.filter(k => !BEERS.includes(k)), wantC = open('cocktails') && cocktails.length && Math.random() < .5;
+  const orders = Array.from({length: n}, () => { const key = pick(wantC ? cocktails : pool.length ? pool : cfg.drinks); return {key, spec: instantiate(key)}; });
   const extra = Math.max(...orders.map(o => DRINKS[o.key].steps.length - 1));
   const evP = event === 'football' ? .8 : event === 'friday' ? .85 : 1;
   const rushF = mode === 'rush' ? Math.max(.4, 1 - timeLeft / 240) : 1;
@@ -942,7 +962,7 @@ function startRush() {
 }
 function startShift(n) {
   shift = n; cfg = shiftCfg(n); st = freshStats(); brokenT = 0;
-  if (mode === 'shift') { event = nextEvent; tasks = nextTasks.map(id => ({id, text: TASKS[id].text, done: false})); }
+  if (mode === 'shift') { event = nextEvent; tasks = makeTasks(nextTasks, n, event); }
   if (event === 'party') cfg.tipMul *= 1.5;
   night = mode === 'shift' && levelInfo(n).night;
   if (mode === 'shift') cfg.plan = levelPlan(n);
@@ -1005,7 +1025,7 @@ function endShift(reason) {
   if (ok && first) save.shift = shift + 1;
   ok ? SFX.perfect() : SFX.fail();
   const fin = {...st, ok, left};
-  tasks.forEach(x => { if (!x.done && TASKS[x.id].end && TASKS[x.id].check(fin)) x.done = true; });
+  tasks.forEach(x => { if (!x.done && TASKS[x.id].end && TASKS[x.id].check(fin, x.g)) x.done = true; });
   const got = ok ? tasks.filter(x => x.done).length : 0, stars = got;
   const rankBefore = rankName(), totBefore = starsTotal(), prev = save.best[shift] || {s: 0, t: 0};
   if (ok) save.best[shift] = {s: Math.max(prev.s, stars), t: Math.max(prev.t, got)};
@@ -1083,7 +1103,7 @@ function renderIntro() {
     <div class="mpick">${Object.keys(DRINKS).filter(k => save.owned.includes(k)).map(k => `<button class="mp${m.includes(k) ? ' on' : ''}" data-menu="${k}" aria-pressed="${m.includes(k)}"><canvas class="ico" data-k="${k}"></canvas><span>${DRINKS[k].name}</span><small>$${DRINKS[k].price}</small></button>`).join('')}</div>
     <p class="muted">На полку влезает ${MENU_MAX} напитка. Гости заказывают только то, что в меню. Коктейли дороже, но готовить их дольше.</p>` : ''}
     ${introWarn ? `<p class="warn">${introWarn}</p>` : ''}
-    <div class="sec">Звёзды смены: каждое задание — ★</div><div class="tlist">${nextTasks.map(id => `<span class="no">☆ ${TASKS[id].text}</span>`).join('')}</div>
+    <div class="sec">Звёзды смены: каждое задание — ★</div><div class="tlist">${makeTasks(nextTasks, n, nextEvent).map(x => `<span class="no">☆ ${x.text}</span>`).join('')}</div>
     <p class="muted">Квота ${rub(levelPlan(n))}. Набери её за 90 секунд, и бар закроется раньше. Три жалобы, и смена провалена.</p>
     <div class="btns"><button class="btn" data-act="start">Открыть бар</button><button class="btn ghost" data-act="map">Карта смен</button></div>`, save.owned.length > 1);
   drawIcons();
@@ -1302,9 +1322,9 @@ $('#card').addEventListener('click', e => {
   if (a === 'intro') introCard();
   else if (a === 'start') {
     const warn = menuProblem(); if (warn) { introWarn = warn; renderIntro(); return; }
-    if (nextTasks.includes('cocktail3') && !shelf().some(k => !BEERS.includes(k))) {
-      const alt = Object.keys(TASKS).find(k => !nextTasks.includes(k) && k !== 'cocktail3' && (!TASKS[k].need || TASKS[k].need()));
-      nextTasks = nextTasks.map(k => k === 'cocktail3' ? alt : k).filter(Boolean);
+    if (nextTasks.includes('cocktails') && !shelf().some(k => !BEERS.includes(k))) {
+      const alt = Object.keys(TASKS).find(k => !nextTasks.includes(k) && k !== 'cocktails' && (!TASKS[k].need || TASKS[k].need()));
+      nextTasks = nextTasks.map(k => k === 'cocktails' ? alt : k).filter(Boolean);
     }
     mode = 'shift'; startShift(introLevel);
   }
