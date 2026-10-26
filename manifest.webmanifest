@@ -1,0 +1,2 @@
+{"name":"TapPub!","short_name":"TapPub!","lang":"ru","start_url":"./","scope":"./","display":"standalone","orientation":"portrait","background_color":"#1b110c","theme_color":"#1b110c",
+"icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}
