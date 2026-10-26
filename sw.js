@@ -4,5 +4,11 @@ self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.add
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return;
+  // The page itself: try the network first (3 s) so an update shows up on the next launch, else the cached copy.
+  if(e.request.mode==='navigate'){
+    e.respondWith(Promise.race([fetch(e.request).then(r=>{if(r.ok){const c=r.clone();caches.open(CACHE).then(k=>k.put('index.html',c))}return r}),new Promise((_,no)=>setTimeout(no,3000))])
+      .catch(()=>caches.match('index.html')));
+    return;
+  }
   e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(r=>r||fetch(e.request).catch(()=>caches.match('index.html'))));
 });
