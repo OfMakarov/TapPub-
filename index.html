@@ -329,8 +329,31 @@ const LIQ = {
   tomato:  {name:'Томатный сок', color:'#b8291e', foam:0, rate:.28},
   lemon:   {name:'Лимонный сок', color:'#f3e98f', foam:0, rate:.1},
   limej:   {name:'Сок лайма', color:'#cfe6a0', foam:0, rate:.12},
+  stout:   {name:'Стаут', color:'#1f0f08', foam:.06, foamColor:'#ead9b8', rate:.2},
+  whiskey: {name:'Виски', color:'#c47a24', foam:0, rate:.22},
+  ginger:  {name:'Имбирное пиво', color:'#e6cf8a', foam:.02, foamColor:'#fff6dc', rate:.34},
+  coffee:  {name:'Кофе', color:'#3a1d0e', foam:0, rate:.3},
+  cream:   {name:'Сливки', color:'#f4ead2', foam:0, rate:.16},
+  champagne:{name:'Игристое', color:'#f3e3a0', foam:.03, foamColor:'#fffbe8', rate:.3},
+  syrup:   {name:'Сироп', color:'rgba(250,244,220,.75)', foam:0, rate:.1},
+  water:   {name:'Кипяток', color:'rgba(230,240,245,.5)', foam:0, rate:.34},
+  menthe:  {name:'Мятный ликёр', color:'#2fa84f', foam:0, rate:.16},
+  irishcream:{name:'Сливочный ликёр', color:'#d9b98c', foam:0, rate:.16},
+  brandy:  {name:'Бренди', color:'#d8782a', foam:0, rate:.14},
+  aperol:  {name:'Апероль', color:'#f2622a', foam:0, rate:.28},
+  campari: {name:'Кампари', color:'#c3122f', foam:0, rate:.22},
+  vermouth:{name:'Вермут', color:'#6e1f1a', foam:0, rate:.22},
+  cranberry:{name:'Клюквенный сок', color:'#c8243d', foam:0, rate:.26},
+  coffeeliq:{name:'Кофейный ликёр', color:'#2a140a', foam:0, rate:.2},
+  espresso:{name:'Эспрессо', color:'#3b1f10', foam:.03, foamColor:'#c79a64', rate:.22},
+  ojuice:  {name:'Апельсиновый сок', color:'#f5a623', foam:0, rate:.34},
+  grenadine:{name:'Гренадин', color:'#b0102a', foam:0, rate:.1},
+  pineapple:{name:'Ананасовый сок', color:'#f2dc6a', foam:.015, foamColor:'#fff8d0', rate:.34},
+  coconut: {name:'Кокосовые сливки', color:'#f6f1e4', foam:0, rate:.18},
+  darkrum: {name:'Тёмный ром', color:'#7a3a12', foam:0, rate:.16},
 };
-const ITEM = {ice:'Лёд', lime:'Лайм', salt:'Соль на край', tabasco:'Табаско', celery:'Сельдерей', sugar:'Сахар', mint:'Мята', lemonw:'Долька лимона'};
+const ITEM = {ice:'Лёд', lime:'Лайм', salt:'Соль на край', tabasco:'Табаско', celery:'Сельдерей', sugar:'Сахар', mint:'Мята', lemonw:'Долька лимона',
+  shot:'Шот виски', cherry:'Вишня', bitters:'Биттер', orange:'Апельсин', honey:'Мёд', beans:'Кофейные зёрна', pineapplew:'Долька ананаса', cinnamon:'Корица'};
 const P = (liq, a, b, ml) => ({t:'pour', liq, mark:[a, b], ml});
 const A = (item, a, b, how) => ({t:'add', item, n:[a, b], how});
 const M = verb => ({t:'mix', verb});
@@ -353,19 +376,91 @@ const DRINKS = {
              learn:'Кровавая Мэри: лимонный сок льётся тонкой струйкой, отметка совсем близко к томатному.', real:['Хайбол со льдом', 'Водка 50 мл', 'Томатный сок 120 мл', 'Лимонный сок 10 мл', '2–3 капли табаско, соль и перец', 'Перекатывай между стаканами, а не взбалтывай', 'Стебель сельдерея']},
   mojito:   {name:'Мохито', price:10, cost:650, from:9, glass:'tall', steps:[A('lime', 3, 3, 'дольки'), A('sugar', 2, 2, 'ч. л.'), A('mint', 1, 1, 'веточка'), M('Размять мадлером'), A('ice', 4, 5, 'колотый'), P('rum', .24, .32, '50 мл'), P('soda', .78, .9, '100 мл'), M('Перемешать')],
              learn:'Мохито: лайм, сахар и мята, размять двойным тапом, потом лёд, ром, содовая и снова перемешать.', real:['3 дольки лайма', '2 чайные ложки сахара', 'Веточка мяты', 'Аккуратно разомни мадлером', 'Колотый лёд доверху', 'Ром 50 мл', 'Содовая 100 мл', 'Перемешай снизу вверх']},
-  longisland:{name:'Лонг-Айленд', price:14, cost:950, from:11, glass:'tall', steps:[A('ice', 4, 4, 'доверху'), P('vodka', .08, .11, '15 мл'), P('gin', .17, .2, '15 мл'), P('rum', .26, .29, '15 мл'), P('tequila', .35, .38, '15 мл'), P('liqueur', .44, .47, '15 мл'), P('lemon', .52, .56, '25 мл'), P('cola', .8, .9, 'доверху'), M('Перемешать'), A('lemonw', 1, 1, 'долька')],
+  longisland:{name:'Лонг-Айленд', price:14, cost:950, from:10, glass:'tall', steps:[A('ice', 4, 4, 'доверху'), P('vodka', .08, .11, '15 мл'), P('gin', .17, .2, '15 мл'), P('rum', .26, .29, '15 мл'), P('tequila', .35, .38, '15 мл'), P('liqueur', .44, .47, '15 мл'), P('lemon', .52, .56, '25 мл'), P('cola', .8, .9, 'доверху'), M('Перемешать'), A('lemonw', 1, 1, 'долька')],
              learn:'Лонг-Айленд: пять крепких по 15 мл, отметки идут почти вплотную. Самый сложный напиток в баре.', real:['Хайбол со льдом', 'Водка, джин, ром, текила и апельсиновый ликёр по 15 мл', 'Лимонный сок 25 мл', 'Кола доверху', 'Перемешай', 'Долька лимона']},
+  /* Ирландский паб */
+  stout:    {v:'pub', name:'Стаут', price:4, cost:0, from:1, glass:'pint', icon:{g:'pint', c:'#1f0f08', top:'#ead9b8'}, steps:[P('stout', .6, .7, 'на ¾'), P('stout', .86, .92, 'долить')],
+             learn:'Стаут льют в два приёма: на три четверти, дать пене осесть, потом долить до края.', real:['Бокал под 45°, лей по стенке на ¾', 'Подожди 1–2 минуты, пока осядет пена', 'Выпрями бокал и долей до края', 'Шапка пены около 2 см']},
+  snakebite:{v:'pub', name:'Снейкбайт', price:5, cost:100, from:2, glass:'pint', icon:{g:'pint', c:'#e8c050', top:'#fff3d9'}, steps:[P('light', .42, .52, 'половина'), P('cider', .86, .92, 'сидр доверху')],
+             learn:'Снейкбайт: половина лагера, сверху сидр.', real:['Пинта наполовину светлым лагером', 'Долей сидром до края', 'Можно добавить каплю чёрносмородинового сиропа, тогда это «Снейкбайт энд блэк»']},
+  velvet:   {v:'pub', name:'Чёрный бархат', price:6, cost:180, from:3, glass:'tall', icon:{g:'flute', layers:['#f3e3a0', '#1f0f08'], top:'#ead9b8'}, steps:[P('champagne', .42, .5, 'половина'), P('stout', .84, .9, 'стаут по ложке')],
+             learn:'Чёрный бархат: сначала игристое, потом стаут медленно по ложке, чтобы легло слоем.', real:['Бокал-флюте наполовину холодным игристым', 'Стаут медленно по обратной стороне барной ложки', 'Слои не перемешивают']},
+  boiler:   {v:'pub', name:'Бойлермейкер', price:7, cost:260, from:4, glass:'mug', icon:{g:'mug', c:'#e9a933', top:'#fff3d9', gar:'shot'}, steps:[P('light', .66, .78, 'пинта'), P('whiskey', .82, .87, '40 мл'), A('shot', 1, 1, 'опусти шот')],
+             learn:'Бойлермейкер: пиво, рядом шот виски. Тап опускает шот прямо в кружку.', real:['Налей кружку светлого', 'Рядом шот виски 40 мл', 'Шот пьют следом за пивом или опускают в кружку']},
+  sour:     {v:'pub', name:'Виски сауэр', price:9, cost:380, from:5, glass:'rocks', icon:{g:'rocks', c:'#e2b24a', top:'#f8f0dc', gar:'cherry', ice:true}, steps:[P('whiskey', .3, .38, '50 мл'), P('lemon', .46, .52, '25 мл'), P('syrup', .56, .6, '15 мл'), M('Встряхнуть'), A('ice', 2, 3, 'в рокс'), A('cherry', 1, 1, 'на шпажке')],
+             learn:'Виски сауэр: виски, лимон и сироп, встряхнуть, потом лёд и вишня.', real:['Бурбон 50 мл', 'Лимонный сок 25 мл', 'Сахарный сироп 15 мл', 'Можно белок, тогда сначала встряхни без льда', 'Встряхни со льдом и процеди в рокс со льдом', 'Коктейльная вишня']},
+  mule:     {v:'pub', name:'Ирландский мул', price:9, cost:480, from:6, glass:'mug', icon:{g:'mug', c:'#d8b86a', gar:'lime', ice:true, copper:true}, steps:[A('ice', 3, 4, 'доверху'), P('whiskey', .2, .27, '50 мл'), P('limej', .31, .35, '15 мл'), P('ginger', .8, .9, '120 мл'), A('lime', 1, 1, 'долька')],
+             learn:'Ирландский мул: лёд, виски, лайм и имбирное пиво. В пабе его подают в медной кружке.', real:['Медная кружка со льдом', 'Ирландский виски 50 мл', 'Сок лайма 15 мл', 'Имбирное пиво 120 мл', 'Долька лайма']},
+  toddy:    {v:'pub', name:'Горячий тодди', price:10, cost:650, from:7, glass:'mug', icon:{g:'cup', c:'#d89a3a', gar:'lemon'}, steps:[A('honey', 1, 1, 'ложка'), P('whiskey', .2, .26, '40 мл'), P('lemon', .31, .35, '15 мл'), P('water', .78, .86, 'кипяток'), M('Размешать'), A('lemonw', 1, 1, 'долька')],
+             learn:'Горячий тодди: мёд на дно, виски, лимон, кипяток, размешать. Греет в дождливый вечер.', real:['Ложка мёда в прогретую кружку', 'Виски 40 мл', 'Лимонный сок 15 мл', 'Горячая вода 120 мл', 'Размешай, пока мёд растворится', 'Долька лимона, можно палочку корицы']},
+  irishcoffee:{v:'pub', name:'Айриш-кофе', price:12, cost:800, from:8, glass:'mug', icon:{g:'cup', layers:['#3a1d0e'], top:'#f4ead2', topH:.28}, steps:[A('sugar', 2, 2, 'ч. л. коричневого'), P('coffee', .44, .52, '120 мл'), M('Размешать сахар'), P('whiskey', .62, .67, '40 мл'), P('cream', .84, .9, 'сливки слоем')],
+             learn:'Айриш-кофе: сахар, горячий кофе, размешать, виски, а сливки ложатся сверху слоем.', real:['Прогрей бокал горячей водой', '2 ч. л. коричневого сахара', 'Горячий кофе 120 мл, размешай', 'Ирландский виски 40 мл', 'Слегка взбитые сливки слоем по ложке, не мешать']},
+  oldfash:  {v:'pub', name:'Олд фэшн', price:13, cost:1000, from:9, glass:'rocks', icon:{g:'rocks', c:'#b8621c', gar:'orange', ice:true}, steps:[A('sugar', 1, 1, 'кубик'), A('bitters', 2, 3, 'дэша'), M('Размять'), A('ice', 2, 2, 'крупный'), P('whiskey', .52, .6, '60 мл'), M('Перемешать'), A('orange', 1, 1, 'цедра')],
+             learn:'Олд фэшн: сахар с биттером размять, лёд, виски, перемешать, цедра апельсина.', real:['Кубик сахара в рокс', '2–3 дэша ангостуры', 'Разомни мадлером', 'Крупный лёд', 'Бурбон или ржаной виски 60 мл', 'Перемешай 20–30 секунд', 'Отожми цедру апельсина над бокалом']},
+  flag:     {v:'pub', name:'Ирландский флаг', price:16, cost:1500, from:10, glass:'rocks', icon:{g:'shot', layers:['#2fa84f', '#efe4cc', '#d8782a']}, steps:[P('menthe', .28, .34, 'треть'), P('irishcream', .58, .64, 'по ложке'), P('brandy', .88, .93, 'по ложке')],
+             learn:'Ирландский флаг: три слоя в шоте, зелёный, белый, оранжевый. Отметки узкие, лей по капле.', real:['Мятный ликёр на треть шота', 'Сливочный ликёр по обратной стороне ложки', 'Сверху бренди или апельсиновый ликёр тоже по ложке', 'Слои не должны смешаться']},
+  /* Бар на крыше */
+  spritz:   {v:'roof', name:'Апероль шприц', price:6, cost:0, from:1, glass:'tall', icon:{g:'wine', c:'#f2622a', gar:'orange', ice:true}, steps:[A('ice', 3, 3, 'в бокал'), P('champagne', .3, .4, '90 мл'), P('aperol', .58, .66, '60 мл'), P('soda', .74, .8, '30 мл'), A('orange', 1, 1, 'долька')],
+             learn:'Апероль шприц: формула 3-2-1. Три части игристого, две апероля, одна содовой.', real:['Винный бокал со льдом', 'Просекко 90 мл', 'Апероль 60 мл', 'Содовая 30 мл', 'Долька апельсина']},
+  daiquiri: {v:'roof', name:'Дайкири', price:8, cost:160, from:2, glass:'rocks', icon:{g:'coupe', c:'#eef2d0', gar:'lime'}, steps:[P('rum', .3, .38, '60 мл'), P('limej', .48, .54, '25 мл'), P('syrup', .58, .62, '15 мл'), M('Встряхнуть'), A('lime', 1, 1, 'кружок')],
+             learn:'Дайкири: ром, лайм и сироп, сильно встряхнуть. Классика Хемингуэя.', real:['Светлый ром 60 мл', 'Сок лайма 25 мл', 'Сахарный сироп 15 мл', 'Встряхни со льдом 10–15 секунд', 'Процеди в охлаждённую коктейльную рюмку']},
+  sunrise:  {v:'roof', name:'Текила санрайз', price:9, cost:280, from:3, glass:'tall', icon:{g:'tall', layers:['#b0102a', '#f08a24', '#f5a623'], gar:'orange', ice:true}, steps:[A('ice', 3, 4, 'доверху'), P('tequila', .18, .25, '45 мл'), P('ojuice', .72, .82, '90 мл'), P('grenadine', .86, .9, '15 мл')],
+             learn:'Текила санрайз: текила, апельсиновый сок, а гренадин в конце опускается на дно, получается рассвет.', real:['Хайбол со льдом', 'Текила 45 мл', 'Апельсиновый сок 90 мл', 'Гренадин 15 мл медленно, он сам опустится на дно', 'Не мешай, иначе пропадёт рассвет']},
+  negroni:  {v:'roof', name:'Негрони', price:10, cost:420, from:4, glass:'rocks', icon:{g:'rocks', c:'#b0202a', gar:'orange', ice:true}, steps:[A('ice', 2, 2, 'крупный'), P('gin', .24, .3, '30 мл'), P('campari', .46, .52, '30 мл'), P('vermouth', .68, .74, '30 мл'), M('Перемешать'), A('orange', 1, 1, 'цедра')],
+             learn:'Негрони: джин, кампари и красный вермут поровну, три одинаковых шага.', real:['Рокс с крупным льдом', 'Джин 30 мл', 'Кампари 30 мл', 'Красный вермут 30 мл', 'Перемешай', 'Цедра апельсина']},
+  cosmo:    {v:'roof', name:'Космополитен', price:11, cost:560, from:5, glass:'rocks', icon:{g:'martini', c:'#e0466a', gar:'lime'}, steps:[P('vodka', .26, .32, '40 мл'), P('liqueur', .38, .42, '15 мл'), P('cranberry', .62, .7, '30 мл'), P('limej', .74, .78, '15 мл'), M('Встряхнуть'), A('lime', 1, 1, 'цедра')],
+             learn:'Космополитен: цитрусовая водка, ликёр, клюква и лайм, встряхнуть.', real:['Цитрусовая водка 40 мл', 'Апельсиновый ликёр 15 мл', 'Клюквенный сок 30 мл', 'Сок лайма 15 мл', 'Встряхни со льдом, процеди в мартинку', 'Цедра лайма']},
+  espresso: {v:'roof', name:'Эспрессо мартини', price:12, cost:720, from:6, glass:'rocks', icon:{g:'martini', c:'#2a140a', top:'#c79a64', gar:'beans'}, steps:[P('vodka', .28, .36, '50 мл'), P('coffeeliq', .46, .52, '30 мл'), P('espresso', .7, .78, '30 мл'), M('Встряхнуть'), A('beans', 3, 3, 'на пенку')],
+             learn:'Эспрессо мартини: водка, кофейный ликёр и свежий эспрессо, трясти сильно, чтобы была пенка.', real:['Водка 50 мл', 'Кофейный ликёр 30 мл', 'Свежий горячий эспрессо 30 мл', 'Встряхни очень сильно со льдом', 'Процеди в мартинку, сверху 3 кофейных зерна']},
+  pina:     {v:'roof', name:'Пина колада', price:12, cost:900, from:7, glass:'tall', icon:{g:'hurricane', c:'#f6efd6', gar:'pineapple'}, steps:[A('ice', 3, 3, 'в блендер'), P('rum', .2, .27, '50 мл'), P('coconut', .38, .45, '30 мл'), P('pineapple', .8, .88, '90 мл'), M('Взбить'), A('pineapplew', 1, 1, 'на край')],
+             learn:'Пина колада: ром, кокосовые сливки и ананасовый сок со льдом, взбить в блендере.', real:['Горсть льда в блендер', 'Светлый ром 50 мл', 'Кокосовые сливки 30 мл', 'Ананасовый сок 90 мл', 'Взбей до гладкости', 'Долька ананаса и вишня']},
+  french75: {v:'roof', name:'Френч 75', price:13, cost:1100, from:8, glass:'tall', icon:{g:'flute', c:'#f3e3a0', gar:'lemon'}, steps:[P('gin', .2, .26, '30 мл'), P('lemon', .3, .34, '15 мл'), P('syrup', .37, .4, '10 мл'), M('Встряхнуть'), P('champagne', .84, .9, 'долить'), A('lemonw', 1, 1, 'цедра')],
+             learn:'Френч 75: джин, лимон и сироп встряхнуть, потом долить шампанским.', real:['Джин 30 мл', 'Лимонный сок 15 мл', 'Сахарный сироп 10 мл', 'Встряхни со льдом и процеди во флюте', 'Долей шампанским', 'Спираль лимонной цедры']},
+  maitai:   {v:'roof', name:'Май тай', price:15, cost:1400, from:9, glass:'rocks', icon:{g:'rocks', layers:['#e8a040', '#7a3a12'], gar:'mint', ice:true}, steps:[A('ice', 3, 3, 'колотый'), P('rum', .2, .26, '40 мл'), P('liqueur', .3, .34, '15 мл'), P('limej', .42, .48, '25 мл'), P('syrup', .52, .55, '15 мл миндального'), M('Встряхнуть'), P('darkrum', .66, .72, '20 мл сверху'), A('mint', 1, 1, 'веточка')],
+             learn:'Май тай: два рома, ликёр, лайм и миндальный сироп. Тёмный ром льётся сверху последним.', real:['Светлый ром 40 мл', 'Апельсиновый ликёр 15 мл', 'Сок лайма 25 мл', 'Миндальный сироп оршад 15 мл', 'Встряхни и процеди на колотый лёд', 'Тёмный ром 20 мл сверху', 'Веточка мяты и половинка лайма']},
+  zombie:   {v:'roof', name:'Зомби', price:20, cost:2000, from:10, glass:'tall', icon:{g:'tall', layers:['#b0102a', '#e8902a', '#7a3a12'], gar:'mint', ice:true}, steps:[A('ice', 4, 4, 'доверху'), P('rum', .12, .16, '30 мл светлого'), P('darkrum', .22, .26, '30 мл тёмного'), P('limej', .32, .36, '20 мл'), P('pineapple', .5, .56, '30 мл'), P('grenadine', .6, .62, '5 мл'), P('syrup', .66, .68, '10 мл'), M('Встряхнуть'), P('darkrum', .8, .84, '15 мл сверху'), A('mint', 1, 1, 'веточка')],
+             learn:'Зомби: самый крепкий коктейль на крыше, три рома и почти десяток шагов. Отметки идут плотно.', real:['Светлый ром 30 мл', 'Тёмный ром 30 мл', 'Сок лайма 20 мл', 'Ананасовый сок 30 мл', 'Гренадин 5 мл и сахарный сироп 10 мл', 'Встряхни и вылей на лёд', 'Сверху 15 мл крепкого тёмного рома', 'Веточка мяты']},
 };
-const UPG = {
-  measure: {name:'Мерная шкала', desc:'Допуск точности шире на 15%', cost:[80, 200, 450]},
-  comfort: {name:'Мягкие стулья', desc:'Клиенты ждут на 15% дольше', cost:[60, 150, 350]},
-  tips:    {name:'Банка для чаевых', desc:'Чаевые больше на 25%', cost:[90, 220, 500]},
-  menu:    {name:'Новое меню', desc:'Все напитки дороже на 10%', cost:[120, 300, 650]},
-  tap2:    {name:'Второй кран', desc:'Следующий заказ виден заранее, нужная бутылка подставляется сама, и можно наливать, пока кружка едет к гостю', cost:[250]},
-  happy:   {name:'Счастливый час', desc:'Раз за смену: свайп вверх по пустой кружке, и 10 секунд всё вдвое дороже', cost:[180]},
-  neon:    {name:'Неоновая вывеска', desc:'Заходят VIP-гости: платят втрое, но принимают только «Идеально»', cost:[300]},
+/* drinks of the current venue, in unlock order */
+const VD = (v = save.venue) => Object.keys(DRINKS).filter(k => (DRINKS[k].v || 'dive') === v);
+/* each venue has its own upgrades; the effect keys are shared so the game logic stays the same */
+const UPGS = {
+  dive: {
+    measure: {name:'Мерная шкала', desc:'Допуск точности шире на 15%', cost:[80, 200, 450]},
+    comfort: {name:'Мягкие стулья', desc:'Клиенты ждут на 15% дольше', cost:[60, 150, 350]},
+    tips:    {name:'Банка для чаевых', desc:'Чаевые больше на 25%', cost:[90, 220, 500]},
+    menu:    {name:'Новое меню', desc:'Все напитки дороже на 10%', cost:[120, 300, 650]},
+    tap2:    {name:'Второй кран', desc:'Следующий заказ виден заранее, нужная бутылка подставляется сама, и можно наливать, пока кружка едет к гостю', cost:[250]},
+    happy:   {name:'Счастливый час', desc:'Раз за смену: свайп вверх по пустой кружке, и 10 секунд всё вдвое дороже', cost:[180]},
+    neon:    {name:'Неоновая вывеска', desc:'Заходят VIP-гости: платят втрое, но принимают только «Идеально»', cost:[300]},
+  },
+  pub: {
+    measure: {name:'Джиггеры', desc:'Допуск точности шире на 15%', cost:[130, 320, 720]},
+    comfort: {name:'Дубовые лавки', desc:'Клиенты ждут на 15% дольше', cost:[100, 240, 560]},
+    tips:    {name:'Кружка для чаевых', desc:'Чаевые больше на 25%', cost:[140, 350, 800]},
+    menu:    {name:'Меловая доска', desc:'Все напитки дороже на 10%', cost:[190, 480, 1000]},
+    band:    {name:'Живая музыка', desc:'Комбо-бонус растёт вдвое быстрее: +10% за каждые 2 идеальных, а не 3', cost:[420]},
+    regulars:{name:'Завсегдатаи', desc:'Каждый четвёртый гость постоянный: «Нормально» засчитывает как «Отлично» и ждёт дольше', cost:[380]},
+    tap2:    {name:'Вторая пивная башня', desc:'Следующий заказ виден заранее, нужная бутылка подставляется сама, и можно наливать, пока кружка едет к гостю', cost:[400]},
+    happy:   {name:'Ирландский час', desc:'Раз за смену: свайп вверх по пустой кружке, и 10 секунд всё вдвое дороже', cost:[290]},
+    neon:    {name:'Клевер над дверью', desc:'Заходят VIP-гости: платят втрое, но принимают только «Идеально»', cost:[480]},
+  },
+  roof: {
+    measure: {name:'Электронный дозатор', desc:'Допуск точности шире на 15%', cost:[190, 480, 1080]},
+    comfort: {name:'Лаунж-диваны', desc:'Клиенты ждут на 15% дольше', cost:[140, 360, 840]},
+    tips:    {name:'Чаевые по QR', desc:'Чаевые больше на 25%', cost:[220, 530, 1200]},
+    menu:    {name:'Авторская карта', desc:'Все напитки дороже на 10%', cost:[290, 720, 1560]},
+    dj:      {name:'Диджей', desc:'Потолок комбо-бонуса +80% вместо +50%', cost:[650]},
+    terrace: {name:'Терраса', desc:'Компании заходят чаще и платят на 30% больше', cost:[560]},
+    tap2:    {name:'Вторая станция', desc:'Следующий заказ виден заранее, нужная бутылка подставляется сама, и можно наливать, пока бокал едет к гостю', cost:[600]},
+    happy:   {name:'Закатный час', desc:'Раз за смену: свайп вверх по пустому бокалу, и 10 секунд всё вдвое дороже', cost:[430]},
+    neon:    {name:'VIP-ложа', desc:'Заходят VIP-гости: платят втрое, но принимают только «Идеально»', cost:[720]},
+  },
 };
-const BEERS = ['light', 'dark', 'cider', 'somaek'];
+const UPG_ = () => UPGS[save.venue] || UPGS.dive;
+/* combo pays +10% per 3 perfect (per 2 with live music), up to +50% (+80% with a DJ) */
+const comboBonus = c => Math.min(lvl('dj') ? .8 : .5, Math.floor(c / (lvl('band') ? 2 : 3)) * .1);
+const BEERS = ['light', 'dark', 'cider', 'somaek', 'stout', 'snakebite', 'velvet', 'boiler'];
 const EVENTS = {
   football: {name:'Футбол по телику', desc:'Толпа фанатов: заказывают только пиво, идут потоком и ждут меньше. Пиво дороже на 20%.', ok: d => d.some(k => BEERS.includes(k))},
   party:    {name:'Девичник', desc:'Заказывают только коктейли, чаевые в полтора раза больше.', ok: d => d.some(k => !BEERS.includes(k))},
@@ -398,17 +493,35 @@ function makeTasks(ids, n, ev) {
   return ids.map(id => { const T = TASKS[id], g = T.goal ? T.goal(e) : 0; return {id, g, text: T.text(g), done: false}; });
 }
 const RANKS = [[0, 'Забегаловка'], [6, 'Пивная'], [18, 'Паб'], [36, 'Бар'], [60, 'Коктейль-бар'], [95, 'Легенда города']];
-const starsTotal = () => (save.legacy || 0) + Object.values(save.best || {}).reduce((a, b) => a + b.s, 0);
+const starsTotal = () => (save.legacy || 0) + Object.keys(VENUES).reduce((t, k) => t + Object.values(vpOf(k).best || {}).reduce((a, b) => a + b.s, 0), 0);
 const rankName = () => RANKS.filter(r => starsTotal() >= r[0]).pop()[1];
+/* each venue is a chapter of LEVELS shifts with its own drinks and upgrades; ch shifts difficulty, qm scales the quota */
+const LEVELS = 10;
 const VENUES = {
-  dive: {name:'Подвальчик', ico:'🕯️', cost:0, from:1, pay:1, desc:'С чего всё началось: кирпич, одна лампа и липкая стойка.',
+  dive: {name:'Подвальчик', ico:'🕯️', cost:0, after:null, ch:0, qm:1, first:'light', pay:1, desc:'С чего всё началось: кирпич, одна лампа и липкая стойка.',
          wall:['#2a180f', '#3b2415'], wain:'#2a170d', rail:'#5a3520', counter:['#6b4126', '#8a5833', '#3a2216'], deco:'poster'},
-  pub:  {name:'Ирландский паб', ico:'☘️', cost:900, from:6, pay:1.15, desc:'Зелёные стены, дартс и тёмное дерево. Все напитки дороже на 15%.',
+  pub:  {name:'Ирландский паб', ico:'☘️', cost:1000, after:'dive', ch:1, qm:1.6, first:'stout', pay:1.15, desc:'Зелёные стены, дартс и тёмное дерево. Стауты, виски и айриш-кофе. Все напитки дороже на 15%.',
+         intro:'Новое заведение, всё с нуля: свои 10 смен, свои напитки и улучшения. Здесь пьют стаут, виски и горячие коктейли.',
          wall:['#122a1c', '#1d3d29'], wain:'#2c150b', rail:'#7a4a2a', counter:['#5a2614', '#7a3a22', '#2a120a'], deco:'darts'},
-  roof: {name:'Бар на крыше', ico:'🌃', cost:2400, from:12, pay:1.3, desc:'Мрамор, неон и вид на ночной город. Все напитки дороже на 30%.',
+  roof: {name:'Бар на крыше', ico:'🌃', cost:2500, after:'pub', ch:2, qm:2.4, first:'spritz', pay:1.3, desc:'Мрамор, неон и вид на ночной город. Шприцы, мартини и тики-коктейли. Все напитки дороже на 30%.',
+         intro:'Последнее заведение: 10 смен, самые сложные коктейли и свои улучшения. Гости тут избалованные.',
          wall:['#121729', '#1c2540'], wain:'#0f1322', rail:'#c9a227', counter:['#bdb5a8', '#efe9df', '#1e2436'], deco:'city'},
 };
 const VEN = () => VENUES[save.venue] || VENUES.dive;
+/* per-venue progress lives in save.vp; the current venue's copy is unpacked onto save itself */
+const VP_KEYS = ['shift', 'owned', 'upg', 'best', 'menu', 'learn'];
+const freshVP = k => ({shift: 1, owned: [VENUES[k].first], upg: {}, best: {}, menu: [], learn: []});
+function vpOf(k) { return k === save.venue ? save : save.vp[k] || freshVP(k); }
+function switchVenue(k) {
+  save.vp[save.venue] = Object.fromEntries(VP_KEYS.map(x => [x, save[x]]));
+  save.venue = k;
+  Object.assign(save, JSON.parse(JSON.stringify(save.vp[k] || freshVP(k))));
+  selKey = shelf()[0]; cfg = shiftCfg(save.shift);
+  persist();
+}
+const venueDone = k => vpOf(k).shift > LEVELS;
+const isOvertime = n => n > LEVELS;
+const lvName = (n, nightN) => isOvertime(n) ? 'Сверхурочная ' + (n - LEVELS) : (nightN ? 'Ночная смена ' : 'Смена ') + n;
 const STAFF = [
   {name:'Стажёр Петя', cost:350, every:4.5, look:{skin:'#f0c8a4', shirt:'#6b8a3a', hair:'#b8652f', style:'side'}},
   {name:'Бармен Лёша', cost:900, every:3, look:{skin:'#c98a62', shirt:'#2f2f3a', hair:'#1e1410', style:'short', beard:'stubble'}},
@@ -420,7 +533,7 @@ function seeded(n) {
   return () => { a = (a + 0x6D2B79F5) >>> 0; let x = a; x = Math.imul(x ^ x >>> 15, x | 1); x ^= x + Math.imul(x ^ x >>> 7, x | 61); return ((x ^ x >>> 14) >>> 0) / 4294967296; };
 }
 function levelInfo(n) {
-  const r = seeded(n + 17);
+  const r = seeded(n + 17 + VEN().ch * 1000);
   const night = n >= 4 && (r() < .2 || n % 5 === 4);
   const e = r(), pickE = ['football', 'party', 'friday'][Math.floor(r() * 3)];
   const event = !night && n >= 3 && e < .45 && EVENTS[pickE].ok(save.owned) ? pickE : null;
@@ -444,9 +557,11 @@ const rub = v => { const r = Math.round(v * 10) / 10; return '$' + (Number.isInt
 const ease = k => 1 - Math.pow(1 - k, 3);
 
 /* progress lives in the cash box between shifts */
-const FRESH = () => ({v: 2, shift: 1, bank: 0, owned: ['light'], upg: {}, learn: [], stars: 0, rushBest: 0, menu: [], best: {}, legacy: 0, mig3: 1, venue: 'dive', venues: ['dive'], staff: 0});
+const FRESH = () => ({v: 3, vp: {}, shift: 1, bank: 0, owned: ['light'], upg: {}, learn: [], stars: 0, rushBest: 0, menu: [], best: {}, legacy: 0, mig3: 1, venue: 'dive', venues: ['dive'], staff: 0});
 let save = FRESH();
-try { const s = JSON.parse(localStorage.getItem('taphub-save') || 'null'); if (s && s.owned && s.v === 2) { save = Object.assign(FRESH(), s); if (!s.mig3) { save.best = {}; for (let n = 1; n < save.shift; n++) save.best[n] = {s: 1, t: 0}; save.legacy = s.stars || 0; save.mig3 = 1; } } } catch (e) {}
+try { const s = JSON.parse(localStorage.getItem('taphub-save') || 'null'); if (s && s.owned && (s.v === 2 || s.v === 3)) { save = Object.assign(FRESH(), s); if (!s.mig3) { save.best = {}; for (let n = 1; n < save.shift; n++) save.best[n] = {s: 1, t: 0}; save.legacy = s.stars || 0; save.mig3 = 1; }
+  if (s.v === 2) { save.v = 3; save.vp = {}; save.venue = 'dive'; save.shift = Math.min(save.shift, LEVELS + 1); save.owned = save.owned.filter(k => DRINKS[k] && !DRINKS[k].v);
+    save.best = Object.fromEntries(Object.entries(save.best).filter(([n]) => +n <= LEVELS)); save.upg = Object.fromEntries(Object.entries(save.upg).filter(([k]) => UPGS.dive[k])); save.menu = []; save.learn = []; } } } catch (e) {}
 function persist() { try { localStorage.setItem('taphub-save', JSON.stringify(save)); } catch (e) {} }
 const lvl = k => save.upg[k] || 0;
 const MENU_MAX = 4;
@@ -454,16 +569,17 @@ const MENU_MAX = 4;
 function shelf() {
   const m = (save.menu || []).filter(k => save.owned.includes(k));
   const keys = m.length ? m : save.owned.slice(-MENU_MAX);
-  return Object.keys(DRINKS).filter(k => keys.includes(k));
+  return VD().filter(k => keys.includes(k));
 }
-const quota = n => Math.round(30 + 7 * (n - 1) + .6 * (n - 1) * (n - 1));
+const quota = n => { n = Math.min(n, LEVELS); return Math.round((30 + 7 * (n - 1) + .6 * (n - 1) * (n - 1)) * VEN().qm); };
 
-function shiftCfg(n) {
+function shiftCfg(lv) {
+  const n = Math.min(lv, LEVELS) + 2 * VEN().ch; // later venues start harder
   return {
     drinks: shelf(),
     tol: (n === 1 ? 1.5 : n <= 3 ? 1.2 : n <= 6 ? 1 : Math.max(.6, 1 - .06 * (n - 6))) * (1 + .15 * lvl('measure')),
     speed: 1.75 * (1 + .04 * Math.max(0, n - 4)),
-    plan: quota(n),
+    plan: quota(lv),
     patience: Math.max(5.5, 9 - n * .3) * (1 + .15 * lvl('comfort')),
     tipMul: 1 + .25 * lvl('tips'),
     priceMul: (1 + .1 * lvl('menu')) * VEN().pay,
@@ -481,7 +597,7 @@ const clone = o => JSON.parse(JSON.stringify(o));
 /* ---------- state ---------- */
 let state = 'menu', shift = 1, cfg = shiftCfg(1);
 let money = 0, complaints = 0, combo = 0, perfectRun = 0, timeLeft = 90, served = 0, perfects = 0;
-let selKey = 'light', plan = instantiate('light'), shelfPos = 0, shelfKick = 0;
+let selKey = shelf()[0] || 'light', plan = instantiate(selKey), shelfPos = 0, shelfKick = 0;
 let layers = [], foam = 0, foamTarget = 0, pouring = false, curStep = null, spilled = false;
 let cust = null, spawnDelay = 0, serveAnim = 0, mugIn = 0, wobble = 0, t = 0, paused = false;
 let popups = [], parts = [], shake = 0, flash = 0, flashColor = '#fff', lastAdd = {t: -9, item: null};
@@ -836,6 +952,7 @@ function serve() {
     if (tier === 'fail') label = worst < 0 ? 'Недолив' : 'Перелив';
     if (tier === 'ok' && cust.type === 'zanuda') { tier = 'fail'; label = 'Зануде мало «нормально»'; }
     if ((tier === 'great' || tier === 'ok') && cust.type === 'vip') { tier = 'fail'; label = 'VIP ждал идеала'; }
+    if (tier === 'ok' && cust.regular) tier = 'great';
   }
   SFX.clink();
   cust.pending = {tier, label, price: d.price, happy: happyLeft > 0, key: o.key};
@@ -864,9 +981,9 @@ function resolveServe() {
     if (tier === 'perfect') { combo++; perfectRun++; perfects++; }
     else if (tier === 'ok') { combo = 0; perfectRun = 0; st.okCount++; }
     else perfectRun = 0;
-    const bonus = Math.min(.5, Math.floor(combo / 3) * .1);
+    const bonus = comboBonus(combo);
     const evPay = (event === 'friday' ? 1.25 : event === 'football' && BEERS.includes(key) ? 1.2 : 1) * (night ? 1.5 : 1);
-    const pr = price * cfg.priceMul * evPay * (cust.type === 'vip' ? 3 : 1) * (happy ? 2 : 1), base = tier === 'ok' ? pr * .8 : pr;
+    const pr = price * cfg.priceMul * evPay * (cust.type === 'vip' ? 3 : 1) * (cust.type === 'company' && lvl('terrace') ? 1.3 : 1) * (happy ? 2 : 1), base = tier === 'ok' ? pr * .8 : pr;
     const tip = (tier === 'perfect' ? pr * .4 : tier === 'great' ? pr * .2 : 0) * tipMul * cfg.tipMul;
     const pay = Math.round((base + tip) * (tier === 'ok' ? 1 : 1 + bonus) * 10) / 10;
     money += pay; served++;
@@ -913,6 +1030,7 @@ function spawn() {
 function makeCustomer() {
   let type = pick(cfg.types);
   if (event === 'friday' && Math.random() < .25) type = 'company';
+  if (lvl('terrace') && Math.random() < .2) type = 'company';
   if (lvl('neon') && Math.random() < .18) type = 'vip';
   const open = id => mode === 'shift' && tasks.some(x => x.id === id && !x.done);
   if (open('vip') && st.served >= 2 && st.served - st.vipAt >= 3) type = 'vip';
@@ -924,10 +1042,11 @@ function makeCustomer() {
   const extra = Math.max(...orders.map(o => DRINKS[o.key].steps.length - 1));
   const evP = event === 'football' ? .8 : event === 'friday' ? .85 : 1;
   const rushF = mode === 'rush' ? Math.max(.4, 1 - timeLeft / 240) : 1;
-  const max = (cfg.patience * (type === 'hurry' ? .55 : 1) + extra * 2.4) * evP * rushF;
+  const regular = type === 'normal' && lvl('regulars') && Math.random() < .25;
+  const max = (cfg.patience * (type === 'hurry' ? .55 : 1) + extra * 2.4) * evP * rushF * (regular ? 1.3 : 1);
   const look = type === 'vip' ? {skin: pick(SKINS), shirt: '#c9a227', hair: '#1a1a1a', style: 'short', pattern: 'collar'} : makeLook();
   const changeAt = night && type !== 'company' && cfg.drinks.length > 1 && Math.random() < .35 ? max * rand(.4, .65) : 0;
-  return {type, orders, idx: 0, patience: max, max, phase: 'enter', pt: 0, look, lastOk: true, friends: [makeLook(), makeLook()], react: 0, reactT: 0, changeAt};
+  return {type, regular, orders, idx: 0, patience: max, max, phase: 'enter', pt: 0, look, lastOk: true, friends: [makeLook(), makeLook()], react: 0, reactT: 0, changeAt};
 }
 
 /* ---------- shift flow ---------- */
@@ -942,9 +1061,9 @@ function rushTick() {
   const w = Math.floor(timeLeft / RUSH_WAVE);
   if (w <= rushWave) return;
   rushWave = w;
-  const next = Object.keys(DRINKS).find(k => !cfg.drinks.includes(k));
+  const next = VD().find(k => !cfg.drinks.includes(k));
   if (next) {
-    cfg.drinks = Object.keys(DRINKS).filter(k => k === next || cfg.drinks.includes(k));
+    cfg.drinks = VD().filter(k => k === next || cfg.drinks.includes(k));
     const busyKeys = [selKey, next, ...(cust ? cust.orders.map(o => o.key) : []), ...(queue ? queue.orders.map(o => o.key) : [])];
     if (cfg.drinks.length > 5) { const drop = cfg.drinks.find(k => !busyKeys.includes(k)); if (drop) cfg.drinks = cfg.drinks.filter(k => k !== drop); }
     shelfPos = cfg.drinks.indexOf(selKey); rushNew = next; renderHints();
@@ -1028,12 +1147,15 @@ function endShift(reason) {
   tasks.forEach(x => { if (!x.done && TASKS[x.id].end && TASKS[x.id].check(fin, x.g)) x.done = true; });
   const got = ok ? tasks.filter(x => x.done).length : 0, stars = got;
   const rankBefore = rankName(), totBefore = starsTotal(), prev = save.best[shift] || {s: 0, t: 0};
-  if (ok) save.best[shift] = {s: Math.max(prev.s, stars), t: Math.max(prev.t, got)};
+  if (ok && !isOvertime(shift)) save.best[shift] = {s: Math.max(prev.s, stars), t: Math.max(prev.t, got)};
+  const chapterDone = ok && first && shift === LEVELS;
+  const nextV = Object.keys(VENUES).find(k => VENUES[k].after === save.venue);
   const gain = starsTotal() - totBefore;
   const rankUp = rankName() !== rankBefore;
   persist();
   showCard(`
-    <h2>${(night ? 'Ночная смена ' : 'Смена ') + shift + (ok ? ' закрыта' : ' провалена')}</h2>
+    <h2>${lvName(shift, night) + (ok ? ' закрыта' : ' провалена')}</h2>
+    ${chapterDone ? `<div class="evbox"><b>${VEN().name}: все ${LEVELS} смен пройдены!</b>${nextV ? `Дальше идут сверхурочные смены с полной оплатой. Копи ${rub(VENUES[nextV].cost)} на ${VENUES[nextV].name}: там новые напитки и улучшения.` : 'Это было последнее заведение. Дальше сверхурочные смены и охота за звёздами.'}</div>` : ''}
     ${ok ? `<div class="stars">${[1,2,3].map(i => i <= stars ? '★' : '<span class="off">★</span>').join('')}</div>` : `<p>${reason}</p>`}
     <div class="stats">
       <span>Выручка смены</span><span>${rub(money)} из ${rub(cfg.plan)}</span>
@@ -1044,11 +1166,11 @@ function endShift(reason) {
     </div>
     ${tasks.length ? `<div class="tlist">${tasks.map(x => `<span class="${x.done && ok ? 'ok' : 'no'}">${x.done && ok ? '★' : '☆'} ${x.text}</span>`).join('')}</div>
     <p class="rank">${ok ? `+${gain} ★ к рейтингу. ` : ''}Рейтинг бара: <b>${rankName()}</b>, ${starsTotal()} ★${rankUp ? ' · новое звание!' : ''}</p>` : ''}
-    ${ok && stars < 3 ? `<p class="muted">Каждое выполненное задание — звезда смены. Для ★★★ выполни все три.</p>` : ''}
+    ${ok && stars < 3 && !isOvertime(shift) ? `<p class="muted">Каждое выполненное задание — звезда смены. Для ★★★ выполни все три.</p>` : ''}
     ${ok ? '' : '<p class="muted">Выручка проваленной смены сгорает. Улучшения из магазина помогут её пройти.</p>'}
     <div class="btns">
-      ${ok ? `<button class="btn" data-act="next">Дальше: смена ${save.shift}${levelInfo(save.shift).night ? ' ☾' : ''}</button>` : `<button class="btn" data-act="again">Ещё раз</button>`}
-      ${ok && stars < 3 ? `<button class="btn ghost" data-act="again">Ещё раз на ★★★</button>` : ''}
+      ${ok ? `<button class="btn" data-act="next">Дальше: ${lvName(save.shift).toLowerCase()}${levelInfo(save.shift).night ? ' ☾' : ''}</button>` : `<button class="btn" data-act="again">Ещё раз</button>`}
+      ${ok && stars < 3 && !isOvertime(shift) ? `<button class="btn ghost" data-act="again">Ещё раз на ★★★</button>` : ''}
       <button class="btn ghost" data-act="map">Карта</button>
       <button class="btn ghost" data-act="shop">Магазин</button>
     </div>`);
@@ -1065,17 +1187,17 @@ const starRow = k => [1, 2, 3].map(i => i <= k ? '★' : '<span class="off">★<
 function mapCard() {
   if (withShutter(mapCard)) return;
   state = 'shop';
-  const top = save.shift, maxN = Math.max(top + 3, 8);
+  const top = save.shift, maxN = LEVELS;
   const done = Object.keys(save.best).length;
   showCard(`
     <div class="shop-head"><h2>Карта смен</h2><div class="cash">★ <b>${Object.values(save.best).reduce((a, b) => a + b.s, 0)}</b> из ${done * 3}</div></div>
     <div class="rank">Рейтинг бара: <b>${rankName()}</b>, ${starsTotal()} ★ · заведение: <b>${VEN().name}</b></div>
-    <p class="muted">Пройденные смены можно переиграть ради трёх звёзд. За переигровку в кассу идёт половина выручки. ☾ — ночная смена.</p>
+    <p class="muted">${LEVELS} смен в каждом заведении. Пройденные можно переиграть ради трёх звёзд, за переигровку в кассу идёт половина выручки. ☾ — ночная смена.${isOvertime(top) ? ' Дальше сверхурочные: квота как у последней смены, оплата полная.' : ''}</p>
     <div class="lvgrid">${Array.from({length: maxN}, (_, i) => {
       const n = i + 1, L = levelInfo(n), b = save.best[n], lock = n > top;
       return `<button class="lv${lock ? ' lock' : ''}${n === top ? ' cur' : ''}${L.night ? ' night' : ''}" data-lvl="${n}" ${lock ? 'disabled' : ''} aria-label="Смена ${n}${L.night ? ', ночная' : ''}${b ? ', звёзд ' + b.s : ''}"><b>${n}</b><span>${b ? starRow(b.s) : n === top ? 'новая' : '·'}</span>${L.night ? '<i>☾</i>' : ''}</button>`;
-    }).join('')}</div>
-    <div class="btns"><button class="btn" data-act="next">Смена ${top}${levelInfo(top).night ? ' ☾' : ''}</button><button class="btn ghost" data-act="shop">Магазин</button></div>`, true);
+    }).join('')}${isOvertime(top) ? `<button class="lv cur${levelInfo(top).night ? ' night' : ''}" data-lvl="${top}" aria-label="${lvName(top)}"><b>+${top - LEVELS}</b><span>сверх</span>${levelInfo(top).night ? '<i>☾</i>' : ''}</button>` : ''}</div>
+    <div class="btns"><button class="btn" data-act="next">${lvName(top)}${levelInfo(top).night ? ' ☾' : ''}</button><button class="btn ghost" data-act="shop">Магазин</button></div>`, true);
 }
 let introWarn = '';
 function menuProblem() {
@@ -1087,20 +1209,21 @@ function menuProblem() {
 function renderIntro() {
   const n = introLevel, c = shiftCfg(n), m = shelf(), L = levelInfo(n), b = save.best[n];
   const notes = [];
-  if (n === 1) notes.push(FIRST_SHIFT);
+  if (n === 1) notes.push(VEN().intro || FIRST_SHIFT);
   save.learn.forEach(k => DRINKS[k].learn && notes.push(DRINKS[k].learn));
   if (save.learn.length && c.drinks.length > 1 && save.owned.length - save.learn.length === 1) notes.push('Свайп влево или вправо крутит полку, налить можно то, что под лампой. Сравни иконку в заказе с полкой.');
-  if (n === 2) notes.push('Пришли торопыги: ждут меньше, чаевые больше.');
-  if (n === 4) notes.push('Теперь бывают компании на 2–3 напитка и зануды, которым мало «Нормально».');
+  if (n === 2 && !VEN().ch) notes.push('Пришли торопыги: ждут меньше, чаевые больше.');
+  if (n === 4 && !VEN().ch) notes.push('Теперь бывают компании на 2–3 напитка и зануды, которым мало «Нормально».');
+  if (isOvertime(n)) notes.push('Сверхурочная смена: квота как у последней, оплата полная, звёзды не идут в рейтинг.');
   if (!notes.length) notes.push('Клиенты ждут меньше, допуски строже.');
   showCard(`
-    <h2>${L.night ? 'Ночная смена' : 'Смена'} ${n}${b ? ` <span class="stars" style="font-size:18px;letter-spacing:2px">${starRow(b.s)}</span>` : ''}</h2>
+    <h2>${lvName(n, L.night)}${b ? ` <span class="stars" style="font-size:18px;letter-spacing:2px">${starRow(b.s)}</span>` : ''}</h2>
     ${L.night ? '<div class="evbox night"><b>☾ Ночь</b>В баре темно, отметка на бокале мигает, а пока льёшь, её почти не видно: слушай звук налива. Гости навеселе: могут передумать посреди заказа или толкнуть стойку, тогда придётся долить. Платят ×1.5, квота выше.</div>' : ''}
     ${b ? '<p class="muted">Переигровка: в кассу пойдёт половина выручки, звёзды засчитываются, если результат лучше.</p>' : ''}
     ${nextEvent ? `<div class="evbox"><b>${EVENTS[nextEvent].name}</b>${EVENTS[nextEvent].desc}</div>` : ''}
     ${notes.map(p => `<p>${p}</p>`).join('')}
     ${save.owned.length > 1 ? `<div class="sec">Меню смены · ${m.length} из ${MENU_MAX}</div>
-    <div class="mpick">${Object.keys(DRINKS).filter(k => save.owned.includes(k)).map(k => `<button class="mp${m.includes(k) ? ' on' : ''}" data-menu="${k}" aria-pressed="${m.includes(k)}"><canvas class="ico" data-k="${k}"></canvas><span>${DRINKS[k].name}</span><small>$${DRINKS[k].price}</small></button>`).join('')}</div>
+    <div class="mpick">${VD().filter(k => save.owned.includes(k)).map(k => `<button class="mp${m.includes(k) ? ' on' : ''}" data-menu="${k}" aria-pressed="${m.includes(k)}"><canvas class="ico" data-k="${k}"></canvas><span>${DRINKS[k].name}</span><small>$${DRINKS[k].price}</small></button>`).join('')}</div>
     <p class="muted">На полку влезает ${MENU_MAX} напитка. Гости заказывают только то, что в меню. Коктейли дороже, но готовить их дольше.</p>` : ''}
     ${introWarn ? `<p class="warn">${introWarn}</p>` : ''}
     <div class="sec">Звёзды смены: каждое задание — ★</div><div class="tlist">${makeTasks(nextTasks, n, nextEvent).map(x => `<span class="no">☆ ${x.text}</span>`).join('')}</div>
@@ -1139,21 +1262,23 @@ function withShutter(fn) {
 function shopCard() {
   if (withShutter(shopCard)) return;
   state = 'shop';
-  const drinks = Object.keys(DRINKS).filter(k => k !== 'light');
+  const drinks = VD().filter(k => k !== VEN().first);
+  const UPG = UPG_();
+  const vOpen = k => !VENUES[k].after || venueDone(VENUES[k].after);
   const canDrink = drinks.filter(k => !save.owned.includes(k) && save.shift >= DRINKS[k].from && save.bank >= DRINKS[k].cost).length;
-  const canPlace = Object.keys(VENUES).filter(k => !save.venues.includes(k) && save.shift >= VENUES[k].from && save.bank >= VENUES[k].cost).length + (save.staff < STAFF.length && save.bank >= STAFF[save.staff].cost ? 1 : 0);
+  const canPlace = Object.keys(VENUES).filter(k => !save.venues.includes(k) && vOpen(k) && save.bank >= VENUES[k].cost).length + (save.staff < STAFF.length && save.bank >= STAFF[save.staff].cost ? 1 : 0);
   const canUpg = Object.keys(UPG).filter(k => lvl(k) < UPG[k].cost.length && save.bank >= UPG[k].cost[lvl(k)]).length;
   const tab = (id, label, n) => `<button class="tab${shopTab === id ? ' on' : ''}" data-tab="${id}" role="tab" aria-selected="${shopTab === id}">${label}${n ? `<i>${n}</i>` : ''}</button>`;
   const row = (ico, title, desc, right) => `<div class="item">${ico}<div class="txt"><b>${title}</b><span>${desc}</span></div>${right}</div>`;
   const buyBtn = (cost, data) => `<button class="buy" ${data} ${save.bank < cost ? 'disabled' : ''}>${rub(cost)}</button>`;
   showCard(`
     <div class="shop-head"><h2>Магазин</h2><div class="cash">В кассе <b>${rub(save.bank)}</b></div></div>
-    <div class="rank">Рейтинг бара: <b>${rankName()}</b>, ${starsTotal()} ★</div>
+    <div class="rank">${VEN().ico} <b>${VEN().name}</b> · рейтинг: <b>${rankName()}</b>, ${starsTotal()} ★</div>
     <div class="tabs" role="tablist">${tab('bar', 'Бар', canUpg)}${tab('drinks', 'Напитки', canDrink)}${tab('place', 'Заведение', canPlace)}</div>
     ${shopTab === 'place' ? Object.keys(VENUES).map(k => {
       const v = VENUES[k], own = save.venues.includes(k), here = save.venue === k;
       return row(`<span class="vico" style="background:${v.wall[1]}">${v.ico}</span>`, v.name, v.desc,
-        here ? '<span class="owned">Ты здесь</span>' : own ? `<button class="buy" data-move="${k}">Переехать</button>` : save.shift < v.from ? `<span class="locked">${rub(v.cost)}<br>со смены ${v.from}</span>` : buyBtn(v.cost, `data-venue="${k}"`));
+        here ? '<span class="owned">Ты здесь</span>' : own ? `<button class="buy" data-move="${k}">Переехать</button>` : !vOpen(k) ? `<span class="locked">${rub(v.cost)}<br>после ${LEVELS} смен:<br>${VENUES[v.after].name}</span>` : buyBtn(v.cost, `data-venue="${k}"`));
     }).join('') + (() => {
       const l = save.staff, nx = STAFF[l];
       const pips = `<span class="pips">${STAFF.map((_, i) => `<i class="${i < l ? 'on' : ''}"></i>`).join('')}</span>`;
@@ -1169,7 +1294,7 @@ function shopCard() {
       const pips = `<span class="pips">${u.cost.map((_, i) => `<i class="${i < l ? 'on' : ''}"></i>`).join('')}</span>`;
       return row('', u.name + pips, u.desc, max ? '<span class="owned">Максимум</span>' : buyBtn(u.cost[l], `data-upg="${k}"`));
     }).join('')}
-    <div class="btns"><button class="btn" data-act="next">Смена ${save.shift}${levelInfo(save.shift).night ? ' ☾' : ''}: квота ${rub(levelPlan(save.shift))}</button><button class="btn ghost" data-act="map">Карта смен</button><button class="btn ghost" data-act="rush">Час пик${save.rushBest ? ' · рекорд ' + rub(save.rushBest) : ''}</button></div>`, true);
+    <div class="btns"><button class="btn" data-act="next">${lvName(save.shift)}${levelInfo(save.shift).night ? ' ☾' : ''}: квота ${rub(levelPlan(save.shift))}</button><button class="btn ghost" data-act="map">Карта смен</button><button class="btn ghost" data-act="rush">Час пик${save.rushBest ? ' · рекорд ' + rub(save.rushBest) : ''}</button></div>`, true);
   drawIcons();
 }
 function drawIcons() {
@@ -1198,13 +1323,13 @@ function fanfareCard(k) {
   tone(262, .9, 'sawtooth', .04, 0, .38);
 }
 function buy(el) {
-  if (el.dataset.move) { save.venue = el.dataset.move; persist(); tone(660, .1, 'triangle', .08); return shopCard(); }
+  if (el.dataset.move) { switchVenue(el.dataset.move); tone(660, .1, 'triangle', .08); return shopCard(); }
   const k = el.dataset.drink || el.dataset.upg || el.dataset.venue;
-  const cost = el.dataset.staff ? STAFF[save.staff].cost : el.dataset.venue ? VENUES[k].cost : el.dataset.drink ? DRINKS[k].cost : UPG[k].cost[lvl(k)];
+  const cost = el.dataset.staff ? STAFF[save.staff].cost : el.dataset.venue ? VENUES[k].cost : el.dataset.drink ? DRINKS[k].cost : UPG_()[k].cost[lvl(k)];
   if (save.bank < cost) return;
   save.bank -= cost;
   if (el.dataset.staff || el.dataset.venue) {
-    if (el.dataset.staff) save.staff++; else { save.venues.push(k); save.venue = k; }
+    if (el.dataset.staff) save.staff++; else { save.venues.push(k); switchVenue(k); save.learn = [VENUES[k].first]; persist(); return venueCard(k); }
     persist(); [523, 659, 784, 1047].forEach((f, i) => tone(f, .16, 'triangle', .09, 0, i * .09));
     const top = $('#overlay').scrollTop; shopCard(); $('#overlay').scrollTop = top;
     pop(el.dataset.staff ? STAFF[save.staff - 1].name + ' в команде!' : 'Новое заведение!', '#e0a943');
@@ -1217,6 +1342,22 @@ function buy(el) {
   shopCard();
   $('#overlay').scrollTop = top;
 }
+/* a new venue: fanfare, the house drink, then straight into training it */
+function venueCard(k) {
+  const v = VENUES[k], d = DRINKS[v.first];
+  const colors = ['#e0a943', '#8fd27a', '#ef6b55', '#6fb7d6', '#f4e7c9'];
+  const conf = RM ? '' : Array.from({length: 36}, (_, i) => `<i class="conf" style="left:${Math.random() * 100}%;background:${colors[i % 5]};animation-delay:${(Math.random() * .5).toFixed(2)}s"></i>`).join('');
+  showCard(`
+    <div class="fanfare"><div class="rays"></div>${conf}<canvas class="ico big" data-k="${v.first}"></canvas></div>
+    <h2 class="center">${v.ico} ${v.name}</h2>
+    <p class="center">${v.intro}</p>
+    <p class="center">Фирменный напиток заведения: <b>${d.name}</b>. ${d.learn}</p>
+    <div class="real"><b>Как готовят по-настоящему</b><ol>${d.real.map(r => `<li>${r}</li>`).join('')}</ol></div>
+    <div class="btns"><button class="btn" data-act="train" data-k="${v.first}">Научиться наливать</button></div>`);
+  drawIcons();
+  [523, 659, 784, 1047].forEach((f, i) => tone(f, .16, 'triangle', .1, 0, i * .1));
+  [1047, 1319, 1568].forEach(f => tone(f, .8, 'triangle', .07, 0, .45));
+}
 function menuCard() {
   state = 'menu'; shutterDown(true); pauseOpen = false; paused = false; night = false;
   shift = save.shift; cfg = shiftCfg(shift); money = 0; complaints = 0; combo = 0; timeLeft = 90; mode = 'shift'; event = null; tasks = []; renderTasks();
@@ -1224,9 +1365,9 @@ function menuCard() {
   showCard(`
     <div class="logo"><div class="mug" aria-hidden="true">🍺</div><h1>TapPub!</h1><span>бар одной кнопки</span></div>
     ${fresh ? '<p>Ты бармен. Наливай точно до отметки и набирай квоту выручки. Набрал, и смена закрывается. На заработанное покупай новые напитки и улучшай бар.</p>'
-      : `<div class="chips"><span>Смена <b>${save.shift}</b></span><span>Касса <b>${rub(save.bank)}</b></span><span>${rankName()} · <b>${starsTotal()} ★</b></span>${save.rushBest ? `<span>Час пик <b>${rub(save.rushBest)}</b></span>` : ''}</div>`}
+      : `<div class="chips"><span>${VEN().ico} <b>${VEN().name}</b></span><span>${isOvertime(save.shift) ? 'Сверхурочные' : 'Смена <b>' + save.shift + '</b> из ' + LEVELS}</span><span>Касса <b>${rub(save.bank)}</b></span><span>${rankName()} · <b>${starsTotal()} ★</b></span>${save.rushBest ? `<span>Час пик <b>${rub(save.rushBest)}</b></span>` : ''}</div>`}
     <div class="vbtns">
-      ${fresh ? '<button class="btn" data-act="intro">Начать смену</button>' : `<button class="btn" data-act="map">Продолжить: смена ${save.shift}</button>`}
+      ${fresh ? '<button class="btn" data-act="intro">Начать смену</button>' : `<button class="btn" data-act="map">Продолжить: ${lvName(save.shift).toLowerCase()}</button>`}
       <div class="row2">
         <button class="btn ghost" data-act="rush">Час пик</button>
         <button class="btn ghost" data-act="book">Рецепты</button>
@@ -1245,7 +1386,7 @@ function pauseCard() {
   const tr = state === 'train';
   showCard(`
     <h2>Пауза</h2>
-    <p class="muted">${tr ? 'Обучение: ' + DRINKS[trainKey].name : mode === 'rush' ? 'Час пик, выручка ' + rub(money) : 'Смена ' + shift + ', выручка ' + rub(money) + ' из ' + rub(cfg.plan)}</p>
+    <p class="muted">${tr ? 'Обучение: ' + DRINKS[trainKey].name : mode === 'rush' ? 'Час пик, выручка ' + rub(money) : lvName(shift) + ', выручка ' + rub(money) + ' из ' + rub(cfg.plan)}</p>
     <div class="vbtns">
       <button class="btn" data-act="resume">Продолжить</button>
       <button class="btn ghost" data-act="settings">Настройки</button>
@@ -1279,15 +1420,14 @@ function settingsCard(back) {
     </div>`);
 }
 function bookCard() {
-  const ks = Object.keys(DRINKS);
   showCard(`
     <h2>Книга рецептов</h2>
     <p class="muted">Открытые напитки можно приготовить и дома. Остальные откроются после покупки.</p>
-    <div class="book">${ks.map(k => {
-      const d = DRINKS[k], own = save.owned.includes(k);
+    <div class="book">${Object.keys(VENUES).map(v => `<div class="sec">${VENUES[v].ico} ${VENUES[v].name}</div>` + VD(v).map(k => {
+      const d = DRINKS[k], own = vpOf(v).owned.includes(k);
       return own ? `<details><summary><canvas class="ico" data-k="${k}"></canvas>${d.name}<small>$${d.price}</small></summary><ol>${d.real.map(r => `<li>${r}</li>`).join('')}</ol></details>`
-        : `<details class="lock"><summary><canvas class="ico" data-k="${k}"></canvas>???<small>${rub(d.cost)} · со смены ${d.from}</small></summary><p class="muted">Купи в магазине, чтобы узнать рецепт.</p></details>`;
-    }).join('')}</div>
+        : `<details class="lock"><summary><canvas class="ico" data-k="${k}"></canvas>???<small>${save.venues.includes(v) ? rub(d.cost) + ' · со смены ' + d.from : VENUES[v].name}</small></summary><p class="muted">${save.venues.includes(v) ? 'Купи в магазине, чтобы узнать рецепт.' : 'Откроется в заведении «' + VENUES[v].name + '».'}</p></details>`;
+    }).join('')).join('')}</div>
     <div class="btns"><button class="btn" data-act="menu">Назад</button></div>`);
   drawIcons();
 }
@@ -1378,7 +1518,7 @@ function trainResult() {
     pad.classList.remove('coach'); state = 'shop';
     showCard(`
       <h2>${DRINKS[trainKey].name}: освоено</h2>
-      <p>Напиток стоит на полке, клиенты начнут его заказывать со следующей смены. Теперь его можно сделать и дома:</p>
+      <p>Напиток стоит на полке, клиенты начнут его заказывать ${save.shift === 1 && trainKey === VEN().first ? 'с первой смены' : 'со следующей смены'}. Теперь его можно сделать и дома:</p>
       <div class="real"><ol>${DRINKS[trainKey].real.map(r => `<li>${r}</li>`).join('')}</ol></div>
       <div class="btns"><button class="btn" data-act="shop">В магазин</button><button class="btn ghost" data-act="train" data-k="${trainKey}">Ещё разок</button></div>`);
   }, 1300);
@@ -1434,7 +1574,7 @@ function renderHints() {
 }
 function updateHud() {
   const rush = mode === 'rush' && state !== 'train';
-  $('#hudShift').textContent = state === 'train' ? 'Обучение' : rush ? 'Час пик' : (night ? 'Ночь ' : 'Смена ') + shift;
+  $('#hudShift').textContent = state === 'train' ? 'Обучение' : rush ? 'Час пик' : isOvertime(shift) ? 'Сверхур. ' + (shift - LEVELS) : (night ? 'Ночь ' : 'Смена ') + shift;
   $('#hudMoney').textContent = rub(money);
   $('#hudPlanLabel').textContent = rush ? 'рекорд' : 'квота';
   $('#hudPlan').textContent = rub(rush ? save.rushBest : cfg.plan);
@@ -1443,7 +1583,7 @@ function updateHud() {
   const tm = $('#hudTime'); tm.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); tm.classList.toggle('low', state === 'play' && !rush && s <= 10);
   if (state === 'train') tm.textContent = '—';
   document.querySelectorAll('.strikes span').forEach((e, i) => e.classList.toggle('on', i < complaints));
-  const bonus = Math.min(50, Math.floor(combo / 3) * 10);
+  const bonus = Math.round(comboBonus(combo) * 100);
   const cb = $('#hudCombo');
   cb.innerHTML = happyLeft > 0 ? '<b>Счастливый час ×2 · ' + Math.ceil(happyLeft) + ' с</b>' : 'Комбо <b>' + combo + '</b>' + (bonus ? ' · +' + bonus + '%' : '');
   cb.classList.toggle('hot', combo >= 3);
@@ -1609,7 +1749,45 @@ function circle(x, y, r) { ctx.beginPath(); ctx.arc(x, y, Math.max(0, r), 0, Mat
 const FONT = (w, px, fam) => `${w} ${px}px ${'Rubik'}, system-ui, sans-serif`;
 
 /* drink icons: x = centre, y = bottom, s = height */
+const GARN = {lime: ['#7fbf3f', '#d8f0a0'], lemon: ['#f2d43a', '#fbefa0'], orange: ['#f59a2a', '#fcd59a']};
+/* icons for the pub and rooftop drinks come from a small spec: glass shape, liquid colours, garnish */
+function drawIconSpec(I, x, y, s) {
+  ctx.save(); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  const glass = 'rgba(244,231,201,.9)', lw = Math.max(1.5, s * .05), g = I.g;
+  let poly, stem = null, handle = null, top, by;
+  const rect = (w, h, dx = 0) => { const x0 = x - w / 2 + dx; top = y - h; by = y; poly = [[x0, top], [x0, y], [x0 + w, y], [x0 + w, top]]; };
+  if (g === 'pint') { const wt = s * .52, wb = s * .38, h = s * .9; top = y - h; by = y; poly = [[x - wt / 2, top], [x - wb / 2, y], [x + wb / 2, y], [x + wt / 2, top]]; }
+  else if (g === 'mug' || g === 'cup') { const w = s * .56; rect(w, s * (g === 'cup' ? .78 : .82), -s * .06); handle = [poly[3][0], top + (y - top) * .3, top + (y - top) * .78]; }
+  else if (g === 'tall' || g === 'hurricane') rect(s * .42, s * .95);
+  else if (g === 'rocks') rect(s * .62, s * .55);
+  else if (g === 'shot') rect(s * .4, s * .55);
+  else {
+    const shapes = {flute: [.32, .62, .95, [[-.5, 0], [-.36, 1], [.36, 1], [.5, 0]]], wine: [.6, .5, .92, [[-.5, 0], [-.44, .7], [-.16, 1], [.16, 1], [.44, .7], [.5, 0]]],
+      coupe: [.72, .28, .8, [[-.5, 0], [-.3, 1], [.3, 1], [.5, 0]]], martini: [.82, .4, .9, [[-.5, 0], [0, 1], [.5, 0]]]}[g];
+    const [wt, hh, tt, pts] = shapes, w = s * wt, h = s * hh; top = y - s * tt; by = top + h;
+    poly = pts.map(([px, py]) => [x + px * w, top + py * h]); stem = by;
+  }
+  const L = I.layers || [I.c], lt = top + (by - top) * (g === 'martini' || g === 'coupe' ? .12 : .16);
+  ctx.save(); ctx.beginPath(); poly.forEach(([px, py], i) => i ? ctx.lineTo(px, py) : ctx.moveTo(px, py)); ctx.closePath(); ctx.clip();
+  const band = (by - lt) / L.length;
+  L.forEach((c, i) => { ctx.fillStyle = I.copper ? '#b8692e' : c; ctx.fillRect(x - s, by - band * (i + 1) - .5, s * 2, band + 1); });
+  if (I.top) { ctx.fillStyle = I.top; ctx.fillRect(x - s, lt, s * 2, (by - lt) * (I.topH || .14)); }
+  if (I.ice && !I.copper) { ctx.fillStyle = 'rgba(255,255,255,.75)'; const c = Math.min(s * .16, (by - lt) * .4); rr(x - c * 1.1, lt + c * .3, c, c, 2); ctx.fill(); rr(x + c * .1, lt + c * 1.1, c, c, 2); ctx.fill(); }
+  ctx.restore();
+  ctx.strokeStyle = I.copper ? '#d88a4a' : glass; ctx.lineWidth = lw; ctx.beginPath(); poly.forEach(([px, py], i) => i ? ctx.lineTo(px, py) : ctx.moveTo(px, py)); ctx.stroke();
+  if (stem != null) { ctx.beginPath(); ctx.moveTo(x, stem); ctx.lineTo(x, y); ctx.moveTo(x - s * .2, y); ctx.lineTo(x + s * .2, y); ctx.stroke(); }
+  if (handle) { ctx.lineWidth = lw * 1.6; ctx.beginPath(); ctx.moveTo(handle[0], handle[1]); ctx.bezierCurveTo(handle[0] + s * .26, handle[1], handle[0] + s * .26, handle[2], handle[0], handle[2]); ctx.stroke(); }
+  const rx = poly[poly.length - 1][0] - s * .06, gr = I.gar;
+  if (GARN[gr]) { ctx.fillStyle = GARN[gr][0]; ctx.beginPath(); ctx.arc(rx, top, s * .14, Math.PI, Math.PI * 2); ctx.fill(); ctx.fillStyle = GARN[gr][1]; ctx.beginPath(); ctx.arc(rx, top, s * .09, Math.PI, Math.PI * 2); ctx.fill(); }
+  else if (gr === 'cherry') { ctx.strokeStyle = '#5a3a1a'; ctx.lineWidth = lw * .7; ctx.beginPath(); ctx.moveTo(rx, top - s * .06); ctx.lineTo(rx + s * .08, top - s * .2); ctx.stroke(); ctx.fillStyle = '#c0182a'; circle(rx, top - s * .04, s * .08); ctx.fill(); }
+  else if (gr === 'mint') { ctx.fillStyle = '#3f9a3a'; for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.ellipse(rx - s * .08 + i * s * .07, top - s * .04 - (i % 2) * s * .05, s * .07, s * .035, i - 1, 0, Math.PI * 2); ctx.fill(); } }
+  else if (gr === 'beans') { ctx.fillStyle = '#4a2410'; for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.ellipse(x - s * .1 + i * s * .1, lt + s * .03, s * .04, s * .025, .4, 0, Math.PI * 2); ctx.fill(); } }
+  else if (gr === 'pineapple') { ctx.fillStyle = '#f2d43a'; ctx.beginPath(); ctx.moveTo(rx - s * .1, top + s * .02); ctx.lineTo(rx + s * .1, top + s * .02); ctx.lineTo(rx, top - s * .14); ctx.closePath(); ctx.fill(); ctx.fillStyle = '#3f9a3a'; ctx.beginPath(); ctx.ellipse(rx + s * .02, top - s * .18, s * .03, s * .07, .3, 0, Math.PI * 2); ctx.fill(); }
+  else if (gr === 'shot') { const sx = x + s * .34, sw = s * .18, sh = s * .24; ctx.fillStyle = '#c47a24'; ctx.fillRect(sx - sw / 2, y - sh * .7, sw, sh * .7); ctx.strokeStyle = glass; ctx.lineWidth = lw * .8; ctx.strokeRect(sx - sw / 2, y - sh, sw, sh); }
+  ctx.restore();
+}
 function drawIcon(key, x, y, s) {
+  if (DRINKS[key] && DRINKS[key].icon) return drawIconSpec(DRINKS[key].icon, x, y, s);
   ctx.save(); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
   const glass = 'rgba(244,231,201,.9)', lw = Math.max(1.5, s * .05);
   if (key === 'light' || key === 'dark') {
@@ -2011,6 +2189,15 @@ function drawMug(cx, bottom, alpha, nozzleY) {
   const cnt = it => plan.steps.filter(s => s.t === 'add' && s.item === it).reduce((a, s) => a + s.done, 0);
   for (let i = 0; i < cnt('mint'); i++) { ctx.fillStyle = '#3f9a3a'; for (let j = 0; j < 5; j++) { ctx.beginPath(); ctx.ellipse(ix + iw * (.15 + j * .17), yb - 6 - (j % 2) * 5, iw * .1, iw * .05, j - 2, 0, Math.PI * 2); ctx.fill(); } }
   for (let i = 0; i < cnt('sugar'); i++) { ctx.fillStyle = 'rgba(255,255,255,.85)'; for (let j = 0; j < 14; j++) { circle(ix + iw * ((j * .37 + i * .21) % 1), yb - 2 - (j % 3) * 2, 1.3); ctx.fill(); } }
+  for (let i = 0; i < cnt('honey'); i++) { ctx.fillStyle = 'rgba(230,160,40,.9)'; ctx.beginPath(); ctx.ellipse(ix + iw / 2, yb - 3, iw * .3, 4, 0, 0, Math.PI * 2); ctx.fill(); }
+  if (cnt('bitters')) { ctx.fillStyle = '#7a1e10'; for (let j = 0; j < cnt('bitters') * 2; j++) { circle(ix + iw * ((j * .31 + .2) % 1), yb - 4 - (j % 2) * 3, 1.8); ctx.fill(); } }
+  if (cnt('shot')) {
+    let dy = 0; if (lastAdd.item === 'shot') dy = (1 - ease(clamp((t - lastAdd.t) / .3, 0, 1))) * (yb - top);
+    const sw = iw * .32, sh = sw * 1.2, sx = ix + iw * .55;
+    ctx.fillStyle = 'rgba(196,122,36,.95)'; ctx.fillRect(sx, yb - sh * .75 - dy, sw, sh * .75);
+    ctx.strokeStyle = 'rgba(255,255,255,.8)'; ctx.lineWidth = 1.5; ctx.strokeRect(sx, yb - sh - dy, sw, sh);
+  }
+  if (cnt('beans') && acc > .05) { ctx.fillStyle = '#3a1a08'; for (let j = 0; j < cnt('beans'); j++) { ctx.beginPath(); ctx.ellipse(ix + iw * (.3 + j * .2), yOf(acc + foam) + 4, 4, 2.5, .4, 0, Math.PI * 2); ctx.fill(); } }
   if (cnt('tabasco') && acc > .05) { ctx.fillStyle = '#e0301e'; for (let j = 0; j < cnt('tabasco') * 3; j++) { circle(ix + iw * ((j * .29 + .1) % 1), yOf(acc) + 3 + (j % 2) * 3, 2); ctx.fill(); } }
   ctx.restore();
   if (cnt('salt')) { ctx.fillStyle = '#ffffff'; for (let j = 0; j <= 10; j++) { circle(x0 + w * j / 10, top + 1, 2.2); ctx.fill(); } }
@@ -2030,13 +2217,19 @@ function drawMug(cx, bottom, alpha, nozzleY) {
     ctx.beginPath(); ctx.moveTo(x0 + w, top + h * .2); ctx.bezierCurveTo(x0 + w + w * .42, top + h * .2, x0 + w + w * .42, top + h * .72, x0 + w, top + h * .72); ctx.stroke();
   }
   // lime on the rim, newest flies in
-  const wedges = [...Array(cnt('lime')).fill('lime'), ...Array(cnt('lemonw')).fill('lemonw')];
+  const wedges = [...Array(cnt('lime')).fill('lime'), ...Array(cnt('lemonw')).fill('lemonw'), ...Array(cnt('orange')).fill('orange'), ...Array(cnt('pineapplew')).fill('pineapplew')];
+  const WC = {lime: ['#7fbf3f', '#d8f0a0'], lemonw: ['#f2d43a', '#fbefa0'], orange: ['#f59a2a', '#fcd59a'], pineapplew: ['#f2c43a', '#fbe79a']};
   wedges.forEach((it, i) => {
     let lx = x0 + w * (i % 2 ? .78 : .22), ly = top + 2;
     if (i === wedges.length - 1 && lastAdd.item === it) { const k = ease(clamp((t - lastAdd.t) / .22, 0, 1)); ly -= (1 - k) * 60; }
-    ctx.fillStyle = it === 'lime' ? '#7fbf3f' : '#f2d43a'; ctx.beginPath(); ctx.arc(lx, ly, w * .14, 0, Math.PI); ctx.fill();
-    ctx.fillStyle = it === 'lime' ? '#d8f0a0' : '#fbefa0'; ctx.beginPath(); ctx.arc(lx, ly, w * .1, 0, Math.PI); ctx.fill();
+    ctx.fillStyle = WC[it][0]; ctx.beginPath(); ctx.arc(lx, ly, w * .14, 0, Math.PI); ctx.fill();
+    ctx.fillStyle = WC[it][1]; ctx.beginPath(); ctx.arc(lx, ly, w * .1, 0, Math.PI); ctx.fill();
   });
+  if (cnt('cherry')) {
+    let cy = top - 4; if (lastAdd.item === 'cherry') cy -= (1 - ease(clamp((t - lastAdd.t) / .22, 0, 1))) * 60;
+    ctx.strokeStyle = '#5a3a1a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x0 + w * .5, cy); ctx.lineTo(x0 + w * .58, cy - 14); ctx.stroke();
+    ctx.fillStyle = '#c0182a'; circle(x0 + w * .5, cy, Math.max(4, w * .09)); ctx.fill();
+  }
   // marks: the active one glows as the level approaches
   const pours = plan.steps.filter(s => s.t === 'pour'), now = nextPour();
   pours.forEach((s, i) => {
@@ -2091,7 +2284,7 @@ function drawBubble(cx, headY, r, by) {
   if (ctx.measureText(name).width > room && words.length > 1) { ctx.fillText(words[0], bx + 56, by + 20); ctx.fillText(words.slice(1).join(' '), bx + 56, by + 33); }
   else ctx.fillText(name, bx + 56, by + 24);
   const sub = cust.type === 'company' ? (cust.idx + 1) + ' из ' + cust.orders.length
-    : cust.type === 'hurry' ? 'Торопыга' : cust.type === 'zanuda' ? 'Зануда' : cust.type === 'vip' ? 'VIP ×3, только идеально' : '';
+    : cust.type === 'hurry' ? 'Торопыга' : cust.type === 'zanuda' ? 'Зануда' : cust.type === 'vip' ? 'VIP ×3, только идеально' : cust.regular ? 'Постоянный' : '';
   if (sub) { ctx.font = FONT(500, 10); ctx.fillStyle = cust.type === 'hurry' ? '#b03a2a' : cust.type === 'vip' ? '#9a7400' : '#6b5440'; ctx.fillText(sub, bx + 56, by + 45); }
   ctx.fillStyle = '#dccaa6'; rr(bx + 7, by + 54, bw - 14, 5, 3); ctx.fill();
   ctx.fillStyle = f > .5 ? '#5aa04a' : f > .25 ? '#d9a02a' : (Math.sin(t * 12) > 0 ? '#d0452f' : '#f06a50');
